@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+        stage('Check Docker Permission') {
+            steps {
+                sh 'whoami'
+                sh 'docker ps'
+            }
+        }
         stage('Checkout') {
             steps {
                 checkout scm
