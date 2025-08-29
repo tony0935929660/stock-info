@@ -1,0 +1,23 @@
+services:
+  api:
+    build: ./Api
+    ports:
+      - "5001:5000"
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=Stock;User Id=sa;Password=xirmus-nEtwe6-joxhaq;TrustServerCertificate=True;Encrypt=False;
+
+  db:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: azure-sql-edge
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=xirmus-nEtwe6-joxhaq
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
