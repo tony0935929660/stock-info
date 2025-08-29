@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t stockinfo:latest .'
+                sh 'docker build -t stockinfo:latest ./Api'
             }
         }
         stage('Stop Old Containers') {
