@@ -4,6 +4,7 @@ namespace Api.Models
     {
         public int Id { get; set; }
         public string? Date { get; set; }
+        public decimal Taiex { get; set; }
         public decimal ForeignInvestor { get; set; }
         public decimal InvestmentTrust { get; set; }
         public decimal DealerSelf { get; set; }

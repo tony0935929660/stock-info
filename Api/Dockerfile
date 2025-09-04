@@ -1,18 +1,22 @@
-# 使用官方 .NET 9 SDK 來 build
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# 複製 csproj 並還原套件
 COPY *.csproj ./
 RUN dotnet restore
 
-# 複製整個專案並 build
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# 最終執行映像
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+FROM mcr.microsoft.com/dotnet/sdk:9.0
 WORKDIR /app
 COPY --from=build /app/out .
-EXPOSE 5000
-ENTRYPOINT ["dotnet", "Api.dll"]
+COPY . ./
+
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+# Create startup script
+RUN echo '#!/bin/bash\ndotnet ef database update\ndotnet Api.dll' > /app/start.sh
+RUN chmod +x /app/start.sh
+
+ENTRYPOINT ["/app/start.sh"]
