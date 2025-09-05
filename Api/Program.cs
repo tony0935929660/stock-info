@@ -22,11 +22,11 @@ var app = builder.Build();
 app.UsePathBase("/api");
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsDevelopment())
+// {
+app.UseSwagger();
+app.UseSwaggerUI();
+// }
 
 // 移除 UseHttpsRedirection (因為在 Docker 中可能有問題)
 // app.UseHttpsRedirection();
