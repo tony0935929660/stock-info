@@ -18,6 +18,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+// 重要：UsePathBase 必須在最前面！
+app.UsePathBase("/api");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -25,14 +28,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UsePathBase("/api");
+// 移除 UseHttpsRedirection (因為在 Docker 中可能有問題)
+// app.UseHttpsRedirection();
+
 app.MapControllers();
 
 app.Urls.Add("http://*:5000");
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

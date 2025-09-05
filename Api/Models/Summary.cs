@@ -3,7 +3,7 @@ namespace Api.Models
     public class Summary
     {
         public int Id { get; set; }
-        public string? Date { get; set; }
+        public DateTime Date { get; set; }
         public decimal Taiex { get; set; }
         public decimal ForeignInvestor { get; set; }
         public decimal InvestmentTrust { get; set; }
