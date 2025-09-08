@@ -40,6 +40,11 @@ namespace Api.Controllers
         [HttpPost]
         public ActionResult<Summary> Create(Summary summary)
         {
+            var existing = _context.Summaries.FirstOrDefault(s => s.Date.Date == summary.Date.Date);
+            if (existing != null)
+            {
+                return Conflict($"A summary for the date {summary.Date:yyyy-MM-dd} already exists.");
+            }
             _context.Summaries.Add(summary);
             _context.SaveChanges();
             return CreatedAtAction(nameof(Get), new { id = summary.Id }, summary);
